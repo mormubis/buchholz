@@ -21,10 +21,11 @@ npm install @echecs/buchholz
 ```typescript
 import { buchholz } from '@echecs/buchholz';
 
+// games[n] = round n+1; Game has no `round` field
 const games = [
-  { blackId: 'B', result: 1, round: 1, whiteId: 'A' },
-  { blackId: 'C', result: 0, round: 2, whiteId: 'A' },
-  { blackId: 'A', result: 0.5, round: 3, whiteId: 'D' },
+  [{ blackId: 'B', result: 1, whiteId: 'A' }], // round 1
+  [{ blackId: 'C', result: 0, whiteId: 'A' }], // round 2
+  [{ blackId: 'A', result: 0.5, whiteId: 'D' }], // round 3
 ];
 
 const score = buchholz('A', games);
@@ -33,42 +34,42 @@ const score = buchholz('A', games);
 
 ## API
 
-All functions accept `(playerId: string, games: Game[])` and return `number`.
-They are drop-in compatible with the shared `Tiebreak` type
-`(playerId: string, games: Game[], players: Player[]) => number`.
+All functions accept `(playerId: string, games: Game[][], players?: Player[])`
+and return `number`. Round is determined by array position: `games[0]` = round
+1, `games[1]` = round 2, etc. The `Game` type has no `round` field.
 
-### `buchholz(playerId, games)`
+### `buchholz(playerId, games, players?)`
 
 **FIDE section 8.1** — Full Buchholz score. Returns the sum of the tournament
 scores of all opponents faced by `playerId`. Byes are excluded.
 
-### `buchholzCut1(playerId, games)`
+### `buchholzCut1(playerId, games, players?)`
 
 **FIDE section 8.2** — Buchholz minus the lowest-scoring opponent. Sorts
 opponents' scores ascending and removes the first before summing.
 
-### `buchholzCut2(playerId, games)`
+### `buchholzCut2(playerId, games, players?)`
 
 **FIDE section 8.3** — Buchholz minus the two lowest-scoring opponents. Removes
 the two lowest scores before summing.
 
-### `buchholzMedian1(playerId, games)`
+### `buchholzMedian1(playerId, games, players?)`
 
 **FIDE section 8.4** — Median Buchholz. Removes one highest and one lowest
 opponent score before summing.
 
-### `buchholzMedian2(playerId, games)`
+### `buchholzMedian2(playerId, games, players?)`
 
 **FIDE section 8.5** — Double Median Buchholz. Removes the two highest and two
 lowest opponent scores before summing.
 
-### `averageOpponentsBuchholz(playerId, games)`
+### `averageOpponentsBuchholz(playerId, games, players?)`
 
 **FIDE section 8.6** — Average Buchholz of opponents. Returns the mean of the
 full Buchholz scores of each opponent faced. Returns `0` when no opponents have
 been faced.
 
-### `foreBuchholz(playerId, games)`
+### `foreBuchholz(playerId, games, players?)`
 
 **FIDE section 8.7** — Fore-Buchholz (Buchholz-Buchholz). Returns the sum of
 each opponent's own full Buchholz score — one level of recursion beyond the
