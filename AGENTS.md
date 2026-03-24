@@ -32,8 +32,23 @@ All functions conform to the signature:
 `games[1]` contains round-2 games, and so on. The `Game` type no longer has a
 `round` field — round is determined by array position.
 
+The `Game` type carries an optional `kind?: GameKind` field used to classify
+unplayed rounds for FIDE article 16 compliance:
+
+```ts
+type GameKind =
+  | 'forfeit-loss' // 16.2.4 — forfeit loss (VUR)
+  | 'forfeit-win' // 16.2.2 — forfeit win
+  | 'full-bye' // 16.2.1 — pairing-allocated / full-point bye
+  | 'half-bye' // 16.2.3 or 16.2.5 — requested half-point bye
+  | 'pairing-bye' // alias for full-bye
+  | 'zero-bye'; // 16.2.3 or 16.2.5 — requested zero-point bye
+```
+
+When `kind` is absent, the game is treated as a normal over-the-board result.
+
 FIDE reference: https://handbook.fide.com/chapter/TieBreakRegulations032026
-(section 8 — Buchholz System)
+(section 8 — Buchholz System; section 16 — Unplayed Rounds Management)
 
 All source lives in `src/index.ts`; tests in `src/__tests__/index.spec.ts`.
 
@@ -94,6 +109,12 @@ pnpm lint && pnpm test && pnpm build
   removes two highest and two lowest.
 - `foreBuchholz` (also called Buchholz-Buchholz) is the sum of each opponent's
   own full `buchholz` score — it recurses one level.
+- **FIDE article 16 — Unplayed Rounds Management**: when a `Game` has a `kind`
+  field, unplayed rounds are handled per FIDE article 16.3–16.5. The `kind`
+  value determines how a player's score is adjusted for their opponents'
+  tie-break calculations (16.3) and how dummy scores are applied to the player's
+  own tie-break (16.4). The Cut-1 exception (16.5) prioritises cutting VUR
+  contributions before the globally-lowest value.
 - **No runtime dependencies** — keep it that way.
 - **ESM-only** — the package ships only ESM. Do not add a CJS build.
 

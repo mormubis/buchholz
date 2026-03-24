@@ -20,16 +20,19 @@ npm install @echecs/buchholz
 
 ```typescript
 import { buchholz } from '@echecs/buchholz';
+import type { Game, GameKind } from '@echecs/buchholz';
 
 // games[n] = round n+1; Game has no `round` field
-const games = [
+const games: Game[][] = [
   [{ black: 'B', result: 1, white: 'A' }], // round 1
   [{ black: 'C', result: 0, white: 'A' }], // round 2
   [{ black: 'A', result: 0.5, white: 'D' }], // round 3
+  // Unplayed rounds use kind to classify the bye type (FIDE article 16)
+  [{ black: '', kind: 'half-bye', result: 0.5, white: 'A' }], // round 4
 ];
 
 const score = buchholz('A', games);
-// Returns sum of all opponents' tournament scores
+// Returns sum of all opponents' tournament scores (byes excluded)
 ```
 
 ## API
@@ -38,6 +41,11 @@ All functions accept `(playerId: string, games: Game[][], players?: Player[])`
 and return `number`. Round is determined by array position: `games[0]` = round
 1, `games[1]` = round 2, etc. The `Game` type has no `round` field.
 
+The optional `kind?: GameKind` field on `Game` classifies unplayed rounds for
+FIDE article 16 compliance. Valid values: `'forfeit-loss'`, `'forfeit-win'`,
+`'full-bye'`, `'half-bye'`, `'pairing-bye'`, `'zero-bye'`. When absent the game
+is treated as a normal over-the-board result.
+
 ### `buchholz(playerId, games, players?)`
 
 **FIDE section 8.1** — Full Buchholz score. Returns the sum of the tournament
@@ -45,8 +53,10 @@ scores of all opponents faced by `playerId`. Byes are excluded.
 
 ### `buchholzCut1(playerId, games, players?)`
 
-**FIDE section 8.2** — Buchholz minus the lowest-scoring opponent. Sorts
-opponents' scores ascending and removes the first before summing.
+**FIDE section 8.1 + modifier 14.1** — Buchholz minus the lowest-scoring
+opponent. Sorts opponents' scores ascending and removes the first before
+summing. When the player has voluntary unplayed rounds (VURs), the FIDE article
+16.5 Cut-1 Exception ensures the lowest VUR contribution is cut first.
 
 ### `buchholzCut2(playerId, games, players?)`
 
