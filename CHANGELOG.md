@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.0.1 — 2026-04-09
+
+### Fixed
+
+- corrected function signatures (removed non-existent `players` parameter)
+- documented subpath exports (`/cut1`, `/cut2`, `/median1`, `/median2`,
+  `/average`, `/fore`)
+- documented `tiebreak` export aliases
+- documented `Result` and `Player` type exports
+- fixed `foreBuchholz` description
+
 ## 3.0.0 — 2026-03-25
 
 ### Changed
