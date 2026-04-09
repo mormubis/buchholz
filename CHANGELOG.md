@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.2 — 2026-04-09
+
+### Changed
+
+- added `fore-buchholz`, `median-buchholz`, and `swiss` keywords
+
 ## 3.0.1 — 2026-04-09
 
 ### Fixed

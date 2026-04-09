@@ -66,7 +66,10 @@
     "buchholz",
     "chess",
     "fide",
+    "fore-buchholz",
+    "median-buchholz",
     "no-dependencies",
+    "swiss",
     "tiebreak",
     "tournament",
     "typescript"
@@ -95,5 +98,5 @@
   },
   "sideEffects": false,
   "type": "module",
-  "version": "3.0.1"
+  "version": "3.0.2"
 }
