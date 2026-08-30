@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.1.0] - 2026-08-30
+
+### Added
+
+- Fore Buchholz modifiers: `@echecs/buchholz/fore-cut1`, `/fore-cut2`,
+  `/fore-median1`, `/fore-median2` (FIDE C.07 8.3 + 14.1-14.4)
+- Average of Opponents' Fore Buchholz: `@echecs/buchholz/average-fore` (FIDE
+  C.07 8.2)
+
+### Fixed
+
+- Fore Buchholz now applies FIDE C.07 Article 16 unplayed-rounds management
+  (adjusted scores and dummy caps) on the draw-projected final round
+- Average of Opponents' Buchholz now averages over-the-board opponents only and
+  rounds to the nearest whole number (0.5 rounded up)
+
 ## [3.0.3] - 2026-04-17
 
 ### Fixed
