@@ -13,6 +13,7 @@ export default defineConfig({
     'src/fore-cut1.ts',
     'src/fore-cut2.ts',
     'src/fore-median1.ts',
+    'src/fore-median2.ts',
   ],
   format: 'esm',
   minify: true,
