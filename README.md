@@ -10,6 +10,10 @@ for chess tournaments, following the
 [FIDE Tiebreak Regulations](https://handbook.fide.com/chapter/TieBreakRegulations032026)
 (section 8). Zero runtime dependencies.
 
+> **Fixed in 4.1.0:** Fore Buchholz and Average of Opponents' Buchholz now apply
+> FIDE C.07 Article 16 unplayed-rounds management, and AOB averages
+> over-the-board opponents only with half-up rounding.
+
 ## Installation
 
 ```bash
@@ -100,8 +104,24 @@ import { averageOpponentsBuchholz, tiebreak } from '@echecs/buchholz/average';
 ```
 
 **FIDE section 8.6** — Average Buchholz of opponents. Returns the mean of the
-full Buchholz scores of each opponent faced. Returns `0` when no opponents have
+full Buchholz scores of each over-the-board opponent faced, rounded to the
+nearest whole number (halves rounded up). Returns `0` when no opponents have
 been faced.
+
+### `@echecs/buchholz/average-fore` — `averageOpponentsBuchholzFore` / `tiebreak`
+
+```typescript
+import {
+  averageOpponentsBuchholzFore,
+  tiebreak,
+} from '@echecs/buchholz/average-fore';
+```
+
+**FIDE section 8.2** — Average of Opponents' Fore Buchholz (AOB/F). Averages the
+Fore Buchholz scores of the opponents the player faced over the board, rounded
+to the nearest whole number (halves rounded up). Signature:
+`(player: string, rounds: CompletedRound[], players: Player[]) => number`.
+Returns `0` when no over-the-board opponents have been faced.
 
 ### `@echecs/buchholz/fore` — `foreBuchholz` / `tiebreak`
 
@@ -109,9 +129,54 @@ been faced.
 import { foreBuchholz, tiebreak } from '@echecs/buchholz/fore';
 ```
 
-**FIDE section 8.7** — Fore-Buchholz. Returns the sum of each opponent's
-tournament score, with the last round treated as a draw for all games (FIDE
-article 16.4 adjustment).
+**FIDE section 8.3** — Fore Buchholz (FB). Returns the sum of the player's
+Buchholz contributions, with the last round treated as a draw for all games.
+Applies FIDE article 16 unplayed-rounds management (adjusted scores and dummy
+caps) to the draw-projected rounds.
+
+### `@echecs/buchholz/fore-cut1` — `foreBuchholzCut1` / `tiebreak`
+
+```typescript
+import { foreBuchholzCut1, tiebreak } from '@echecs/buchholz/fore-cut1';
+```
+
+**FIDE section 8.3 + modifier 14.1** — Fore Buchholz Cut-1 (FB/C1). Fore
+Buchholz excluding the least significant contribution. When the player has
+voluntary unplayed rounds (VURs), the FIDE article 16.5 Cut-1 Exception ensures
+the lowest VUR contribution is cut first. Signature:
+`(player: string, rounds: CompletedRound[], players: Player[]) => number`.
+
+### `@echecs/buchholz/fore-cut2` — `foreBuchholzCut2` / `tiebreak`
+
+```typescript
+import { foreBuchholzCut2, tiebreak } from '@echecs/buchholz/fore-cut2';
+```
+
+**FIDE section 8.3 + modifier 14.2** — Fore Buchholz Cut-2 (FB/C2). Fore
+Buchholz excluding the two least significant contributions. Signature:
+`(player: string, rounds: CompletedRound[], players: Player[]) => number`.
+
+### `@echecs/buchholz/fore-median1` — `foreBuchholzMedian1` / `tiebreak`
+
+```typescript
+import { foreBuchholzMedian1, tiebreak } from '@echecs/buchholz/fore-median1';
+```
+
+**FIDE section 8.3 + modifier 14.3** — Fore Buchholz Median-1 (FB/M1). Fore
+Buchholz excluding the least and the most significant contributions (in that
+order). Signature:
+`(player: string, rounds: CompletedRound[], players: Player[]) => number`.
+
+### `@echecs/buchholz/fore-median2` — `foreBuchholzMedian2` / `tiebreak`
+
+```typescript
+import { foreBuchholzMedian2, tiebreak } from '@echecs/buchholz/fore-median2';
+```
+
+**FIDE section 8.3 + modifier 14.4** — Fore Buchholz Median-2 (FB/M2). Fore
+Buchholz excluding the two least and the two most significant contributions (in
+that order). Signature:
+`(player: string, rounds: CompletedRound[], players: Player[]) => number`.
 
 ## Types
 

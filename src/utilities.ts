@@ -33,6 +33,16 @@ function opponents(player: string, rounds: CompletedRound[]): string[] {
   );
 }
 
+function otbOpponents(player: string, rounds: CompletedRound[]): string[] {
+  return rounds
+    .flatMap((r) => r.games)
+    .filter(
+      (g) =>
+        g.forfeit === undefined && (g.white === player || g.black === player),
+    )
+    .map((g) => (g.white === player ? g.black : g.white));
+}
+
 /** Find the bye entry for a player in a round, if any. */
 function byeForPlayer(player: string, round: CompletedRound): Bye | undefined {
   return round.byes.find((b) => b.player === player);
@@ -88,6 +98,19 @@ function isTerminalBye(
     }
   }
   return true;
+}
+
+function projectFore(rounds: CompletedRound[]): CompletedRound[] {
+  return rounds.map((round, index) =>
+    index === rounds.length - 1
+      ? {
+          ...round,
+          games: round.games.map((g) =>
+            g.forfeit === undefined ? { ...g, result: 'draw' as const } : g,
+          ),
+        }
+      : round,
+  );
 }
 
 /**
@@ -249,6 +272,8 @@ export {
   isForfeitVUR,
   isTerminalBye,
   opponents,
+  otbOpponents,
+  projectFore,
   score,
   scoreFor,
 };
