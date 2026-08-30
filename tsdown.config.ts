@@ -10,6 +10,7 @@ export default defineConfig({
     'src/median2.ts',
     'src/average.ts',
     'src/fore.ts',
+    'src/fore-cut1.ts',
   ],
   format: 'esm',
   minify: true,
