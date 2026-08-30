@@ -85,7 +85,7 @@ describe('buchholzMedian2', () => {
 describe('averageOpponentsBuchholz', () => {
   it("returns average of opponents' Buchholz scores", () => {
     const result = averageOpponentsBuchholz('B', ROUNDS, PLAYERS);
-    expect(result).toBeCloseTo(13 / 3);
+    expect(result).toBe(4);
   });
 });
 

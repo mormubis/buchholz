@@ -1,11 +1,11 @@
-import { opponents } from './utilities.js';
+import { otbOpponents } from './utilities.js';
 
 import type { Tiebreak } from '@echecs/tournament';
 
 import { buchholz } from './index.js';
 
 const averageOpponentsBuchholz: Tiebreak = (player, rounds, players) => {
-  const opps = opponents(player, rounds);
+  const opps = otbOpponents(player, rounds);
   if (opps.length === 0) {
     return 0;
   }
@@ -13,7 +13,7 @@ const averageOpponentsBuchholz: Tiebreak = (player, rounds, players) => {
   for (const id of opps) {
     sum += buchholz(id, rounds, players);
   }
-  return sum / opps.length;
+  return Math.round(sum / opps.length);
 };
 
 export { averageOpponentsBuchholz, averageOpponentsBuchholz as tiebreak };
