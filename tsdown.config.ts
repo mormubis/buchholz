@@ -9,6 +9,7 @@ export default defineConfig({
     'src/median1.ts',
     'src/median2.ts',
     'src/average.ts',
+    'src/average-fore.ts',
     'src/fore.ts',
     'src/fore-cut1.ts',
     'src/fore-cut2.ts',

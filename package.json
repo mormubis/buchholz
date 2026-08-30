@@ -41,6 +41,10 @@
       "import": "./dist/average.js",
       "types": "./dist/average.d.ts"
     },
+    "./average-fore": {
+      "import": "./dist/average-fore.js",
+      "types": "./dist/average-fore.d.ts"
+    },
     "./cut1": {
       "import": "./dist/cut1.js",
       "types": "./dist/cut1.d.ts"
