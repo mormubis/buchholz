@@ -90,6 +90,19 @@ function isTerminalBye(
   return true;
 }
 
+function projectFore(rounds: CompletedRound[]): CompletedRound[] {
+  return rounds.map((round, index) =>
+    index === rounds.length - 1
+      ? {
+          ...round,
+          games: round.games.map((g) =>
+            g.forfeit === undefined ? { ...g, result: 'draw' as const } : g,
+          ),
+        }
+      : round,
+  );
+}
+
 /**
  * Raw score — sum of awarded points from games, no FIDE 16 adjustments.
  * Does not include bye points (those are in Player.points).
@@ -249,6 +262,7 @@ export {
   isForfeitVUR,
   isTerminalBye,
   opponents,
+  projectFore,
   score,
   scoreFor,
 };
