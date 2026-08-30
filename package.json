@@ -61,6 +61,10 @@
       "import": "./dist/fore-cut2.js",
       "types": "./dist/fore-cut2.d.ts"
     },
+    "./fore-median1": {
+      "import": "./dist/fore-median1.js",
+      "types": "./dist/fore-median1.d.ts"
+    },
     "./median1": {
       "import": "./dist/median1.js",
       "types": "./dist/median1.d.ts"
